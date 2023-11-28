@@ -16,7 +16,6 @@ export class AuthMiddleware {
             const { id } = payload as { id: string }
             if (!payload) return res.status(401).json({ error: "Unauthorized" })
             const user = await UserModel.findById(id)
-            console.log(user);  
             if (!user) return res.status(401).json({ error: "Unauthorized" })
             req.body.user = user
             next()

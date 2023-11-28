@@ -12,6 +12,12 @@ export class CategoryRoutes {
 
         router.post("/", [AuthMiddleware.validateJWT], categoryController.createCategory)
 
+        router.get("/", categoryController.obtainCategories)
+
+        router.get("/:id", categoryController.obtainCategoryById)
+
+        router.delete("/:id", [AuthMiddleware.validateJWT], categoryController.deleteCategory)
+
         return router
     }
 }
