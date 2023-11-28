@@ -20,4 +20,3 @@ async function main() {
     })
     await server.serverStart()
 }
-
