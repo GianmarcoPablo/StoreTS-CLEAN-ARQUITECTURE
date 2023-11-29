@@ -19,10 +19,17 @@ export class FileUploadController {
         return res.status(500).json({ error: 'Internal server error' });
     }
 
-    public uploadFile = async (req: Request, res: Response) => {
-        const type = req.params.type
-        const file = req.body.files.at(0) as UploadedFile
-    }
+    public uploadFile = (req: Request, res: Response) => {
+
+        const type = req.params.type;
+        const file = req.body.files.at(0) as UploadedFile;
+
+
+        this.fileUploadService.uploadSingle(file, `uploads/${type}`)
+            .then(uploaded => res.json(uploaded))
+            .catch(error => this.handleError(error, res))
+
+    };
 
     public multipleUpload = async (req: Request, res: Response) => { }
 }

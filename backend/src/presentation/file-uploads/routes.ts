@@ -13,8 +13,8 @@ export class FileUploadRoutes {
         router.use(FileUploadMiddleware.containFiles)
         router.use(TypeMiddleware.validTypes(['users', 'products', "categories"]))
 
-        router.use("/single/:type", fileUploadController.uploadFile)
-        router.use("/multiple/:type", fileUploadController.multipleUpload)
+        router.post("/single/:type", fileUploadController.uploadFile)
+        router.post("/multiple/:type", fileUploadController.multipleUpload)
         return router
     }
 }

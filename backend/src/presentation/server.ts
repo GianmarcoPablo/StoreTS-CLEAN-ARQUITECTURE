@@ -1,5 +1,7 @@
 import express, { Router } from "express"
+import fileUpload from "express-fileupload"
 import path from "path"
+import cors from "cors"
 
 interface Options {
     port: number
@@ -22,8 +24,12 @@ export class Server {
     }
 
     async serverStart() {
+        this.app.use(cors())
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
+        this.app.use(fileUpload({
+            limits: { fileSize: 50 * 1024 * 1024 },
+        }))
         this.app.use(express.static(this.publicPath))
         this.app.use(this.routes)
 

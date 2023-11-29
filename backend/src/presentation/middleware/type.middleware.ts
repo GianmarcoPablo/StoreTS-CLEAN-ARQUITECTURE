@@ -11,11 +11,8 @@ export class TypeMiddleware {
                 return res.status(400)
                     .json({ error: `Invalid type: ${type}, valid ones ${validTypes}` });
             }
-
             next();
-
         };
-
 
     }
 }
