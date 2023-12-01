@@ -12,7 +12,8 @@ const ProductSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    img: {
+    img:
+    {
         type: String
     },
     category: {
@@ -27,14 +28,21 @@ const ProductSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    coupons: [
-        {
-            code: { type: String, required: true, unique: true }, // Coupon code
-            discount: { type: Number, required: true }, // Discount percentage or amount
-            isActive: { type: Boolean, default: true }, // Indicates if the coupon is currently active
-            expirationDate: { type: Date }, // Coupon expiration date
+    coupons: [{
+        code: {
+            type: String,
         },
-    ],
+        discount: {
+            type: Number,
+        },
+        expire_date: {
+            type: Date,
+        },
+        is_active: {
+            type: Boolean,
+            default: true
+        },
+    }]
 })
 
 export const ProductModel = mongoose.model("Product", ProductSchema);

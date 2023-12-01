@@ -11,10 +11,12 @@ export class AuthService {
         try {
             const user = new UserModel(registerUserDto)
             user.password = await HashPasswordAdapter.hash(user.password)
+            const token = await GenerateTokenAdapter.generateToken({ id: user.id })
             await user.save()
             const { password, ...userEntity } = UserEntity.fromObject(user)
             return {
                 user: userEntity,
+                token: token
             }
         } catch (error) {
             throw CustomError.InternalServerError(`[ERROR]: ${error}`)

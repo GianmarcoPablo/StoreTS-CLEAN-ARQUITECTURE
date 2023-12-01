@@ -2,13 +2,16 @@ import { ProductModel } from "../../database/mongo/models/Product-model";
 import { CreateProductDto, CustomError, PaginationDto, ProducEntity } from "../../domain";
 
 export class ProductService {
-    async createProduct(createProductDto: CreateProductDto) {
+    async createProduct(createProductDto: CreateProductDto, file: string) {
         try {
             const exists = await ProductModel.exists({ name: createProductDto.name })
 
             if (exists) throw CustomError.badRequest("Product already exists")
 
             const product = new ProductModel(createProductDto)
+
+            product.img = file
+
             await product.save()
 
             const productEntity = ProducEntity.fromObject(product)

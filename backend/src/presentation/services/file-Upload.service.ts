@@ -3,6 +3,8 @@ import fs from "fs"
 import { UploadedFile } from "express-fileupload"
 import { randomUUID } from "crypto"
 import { CustomError } from "../../domain"
+import { ProductModel, UserModel, CategoryModel } from "../../database"
+
 export class FileUploadService {
 
     constructor(
@@ -32,6 +34,10 @@ export class FileUploadService {
 
             const fileName = `${randomUUID()}.${fileExtension}`
             file.mv(`${destination}/${fileName}`)
+
+            // agregar el nombre de  la imagen a la base de datos de la entidad correspondiente
+
+
             return {
                 fileName
             }

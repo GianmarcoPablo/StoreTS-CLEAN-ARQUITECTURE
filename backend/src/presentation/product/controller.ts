@@ -18,10 +18,11 @@ export class ProductController {
 
     public createProduct = (req: Request, res: Response) => {
         const [error, createProductDto] = CreateProductDto.create(req.body)
+        const file = req.file?.filename
 
         if (error) return res.status(400).json({ message: error })
 
-        this.productService.createProduct(createProductDto!)
+        this.productService.createProduct(createProductDto! as CreateProductDto, file!)
             .then((response) => res.status(201).json(response))
             .catch((error) => this.handleError(error, res))
     }

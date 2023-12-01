@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 
 export class GenerateTokenAdapter {
-    public static generateToken(payload: any, duration: string = "2h") {
+    public static generateToken(payload: any, duration: string = "30d") {
         return new Promise(resolve => {
             jwt.sign(payload, "SECRET", { expiresIn: duration }, (err, token) => {
                 if (err) return resolve(null)

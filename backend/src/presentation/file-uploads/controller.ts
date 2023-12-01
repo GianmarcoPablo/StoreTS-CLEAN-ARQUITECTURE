@@ -28,7 +28,6 @@ export class FileUploadController {
         this.fileUploadService.uploadSingle(file, `uploads/${type}`)
             .then(uploaded => res.json(uploaded))
             .catch(error => this.handleError(error, res))
-
     };
 
     public multipleUpload = async (req: Request, res: Response) => { }
