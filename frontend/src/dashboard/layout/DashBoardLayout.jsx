@@ -6,11 +6,11 @@ export default function DashBoardLayout() {
         <div className="flex">
             <Sidebar />
             <div className="w-full">
-                <header className="p-3 shadow-2xl">
+                <header className="p-3 shadow-2xl bg-slate-900">
                     <Navbar />
                 </header>
-                <main className="bg-gray-200 h-screen ">
-                    <div className="container mx-auto">
+                <main >
+                    <div className="container mx-auto mb-10">
                         <Outlet />
                     </div>
                 </main>

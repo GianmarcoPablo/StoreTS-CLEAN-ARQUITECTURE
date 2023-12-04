@@ -37,18 +37,17 @@ const LINKS = [
 export default function Sidebar() {
     return (
         <div
-            // hacer que te siga siempre el scroll
-            className='w-1/6 shadow-2xl '
+            className='w-1/6 flex flex-col h-screen sticky top-0 shadow-2xl bg-slate-900 overflow-y-auto'
         >
-            <h1 className="text-2xl text-center text-blue-800 uppercase font-black mt-5">Store</h1>
+            <h1 className="text-2xl text-center text-orange-400 uppercase font-black mt-5">Store</h1>
 
-            <aside className="mt-5 px-5">
+            <aside className="mt-5 px-5 flex-1">
                 {
                     LINKS.map(({ name, path, icon }, index) => (
                         <div key={index}>
                             <Link
                                 to={path}
-                                className="p-2 flex items-center justify-start gap-2 text-center text-gray-600 hover:bg-blue-200"
+                                className="p-2 flex items-center justify-start gap-2 text-center text-white hover:bg-orange-600 font-semibold rounded-md transition duration"
                             >
                                 {icon}
                                 <span>{name}</span>

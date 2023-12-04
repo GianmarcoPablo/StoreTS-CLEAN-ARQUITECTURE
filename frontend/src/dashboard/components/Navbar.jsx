@@ -2,7 +2,7 @@ import DropDown from "./DropDown"
 
 export default function Navbar() {
     return (
-        <nav className="flex justify-end gap-5 items-center">
+        <nav className="flex justify-end gap-5 items-center ">
 
             <DropDown />
 

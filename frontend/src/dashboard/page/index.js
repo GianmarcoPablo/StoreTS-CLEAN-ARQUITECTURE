@@ -4,3 +4,4 @@ export { default as CouponsPage } from './CouponsPage';
 export { default as CategoriesPage } from './CategoriesPage';
 export { default as UsersPage } from './UsersPage';
 export { default as AddProductPage } from './AddProductPage';
+export { default as EditProductPage } from './EditProductPage';
