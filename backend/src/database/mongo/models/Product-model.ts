@@ -19,7 +19,7 @@ const ProductSchema = new mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category"
-    },
+    },  
     is_active: {
         type: Boolean,
         default: true
@@ -28,7 +28,7 @@ const ProductSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    coupons: [{
+    coupons: {
         code: {
             type: String,
         },
@@ -38,11 +38,10 @@ const ProductSchema = new mongoose.Schema({
         expire_date: {
             type: Date,
         },
-        is_active: {
+        cuupon_is_active: {
             type: Boolean,
-            default: true
         },
-    }]
+    }
 })
 
 export const ProductModel = mongoose.model("Product", ProductSchema);

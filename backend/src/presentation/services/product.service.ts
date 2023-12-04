@@ -4,22 +4,33 @@ import { CreateProductDto, CustomError, PaginationDto, ProducEntity } from "../.
 export class ProductService {
     async createProduct(createProductDto: CreateProductDto, file: string) {
         try {
+
+            const { code, discount, expire_date, cuupon_is_active } = createProductDto
             const exists = await ProductModel.exists({ name: createProductDto.name })
+
+            const coupons = {
+                code,
+                discount,
+                expire_date,
+                cuupon_is_active
+            }
 
             if (exists) throw CustomError.badRequest("Product already exists")
 
-            const product = new ProductModel(createProductDto)
-
-            product.img = file
+            const product = new ProductModel({
+                ...createProductDto,
+                img: file,
+                coupons
+            })
 
             await product.save()
 
-            const productEntity = ProducEntity.fromObject(product)
-
             return {
                 message: "Product created successfully",
-                product: productEntity
+                product: ProducEntity.fromObject(product)
             }
+
+
         } catch (error) {
             throw CustomError.InternalServerError(`[ERROR] ${error}`)
         }
