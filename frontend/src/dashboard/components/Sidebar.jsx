@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Cart, Categories, Products, Sales, Users, Coupons } from "../Icons/Icons"
+import { Cart, Categories, Products, Sales, Users, Coupons, Disable } from "../Icons/Icons"
 
 const LINKS = [
     {
@@ -32,6 +32,11 @@ const LINKS = [
         path: "/dashboard/users",
         icon: <Users />
     },
+    {
+        name: "Disabled",
+        path: "/dashboard/inactive",
+        icon: <Disable />
+    }
 ]
 
 export default function Sidebar() {

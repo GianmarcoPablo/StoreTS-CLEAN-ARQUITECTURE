@@ -1,19 +1,25 @@
 import { Link } from "react-router-dom"
-
+import { useDashBoard } from "../../context/DashBoardProvider"
+import Alert from "../../components/Alert"
 export default function Categorie({ category }) {
 
-    console.log(category);
-    const { name, is_active, outstanding, description } = category
+    const { name, is_active, outstanding, description, id } = category
+
+    const { alert, deleteCategory } = useDashBoard()
+
     return (
         <>
-            <div className="bg-white rounded-md shadow-md p-5">
+            <div className="bg-white rounded-md shadow-md p-5 animate-fade-down">
                 <div className="flex justify-between items-center">
                     <h3 className="text-xl font-black">{name}</h3>
                     <div className="flex items-center gap-3">
-                        <Link to={`/dashboard/categories/edit/${category.id}`} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l">
+                        <Link to={`/dashboard/categories/edit/${id}`} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l">
                             Edit
                         </Link>
-                        <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-r">
+                        <button
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-r"
+                            onClick={() => deleteCategory(id)}
+                        >
                             Delete
                         </button>
                     </div>
@@ -32,6 +38,7 @@ export default function Categorie({ category }) {
                     </div>
                 </div>
             </div>
+            {alert.message && <Alert obj={alert} />}
         </>
     )
 }

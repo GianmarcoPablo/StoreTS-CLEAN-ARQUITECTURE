@@ -4,6 +4,8 @@ import { createProduct } from "../services/createProduct";
 import { getCategories } from "../services/getCategories";
 import { removeProduct } from "../services/removeProduct";
 import { getCategory } from "../services/getCategory";
+import { createCategory } from "../services/createCategory";
+import { removeCategory } from "../services/removeCategory";
 
 const DashBoardContext = createContext();
 
@@ -28,12 +30,38 @@ export default function DashBoardProvider({ children }) {
         }, 3000);
     }
 
+    const addNewCategory = async (category) => {
+        const newCategory = await createCategory(category)
+        const { category: categ } = newCategory
+        setCategories([...categories, categ])
+        setAlert({
+            message: 'Category added successfully',
+            type: 'success'
+        })
+        setTimeout(() => {
+            setAlert({})
+        }, 3000);
+    }
+
     const deleteProduct = async (id) => {
         await removeProduct(id)
         const productsUpdated = products.filter(product => product.id !== id)
         setProducts(productsUpdated)
         setAlert({
             message: 'Product removed successfully',
+            type: 'success'
+        })
+        setTimeout(() => {
+            setAlert({})
+        }, 3000);
+    }
+
+    const deleteCategory = async (id) => {
+        await removeCategory(id)
+        const categoriesUpdated = categories.filter(category => category.id !== id)
+        setCategories(categoriesUpdated)
+        setAlert({
+            message: 'Category removed successfully',
             type: 'success'
         })
         setTimeout(() => {
@@ -77,15 +105,18 @@ export default function DashBoardProvider({ children }) {
 
 
     return (
-        <DashBoardContext.Provider value={{
-            products,
-            categories,
-            addNewProduct,
-            deleteProduct,
-            alert,
-            getCategoryById,
-            category
-        }}>
+        <DashBoardContext.Provider
+            value={{
+                products,
+                categories,
+                addNewProduct,
+                deleteProduct,
+                alert,
+                getCategoryById,
+                category,
+                addNewCategory,
+                deleteCategory
+            }}>
             {children}
         </DashBoardContext.Provider>
     )

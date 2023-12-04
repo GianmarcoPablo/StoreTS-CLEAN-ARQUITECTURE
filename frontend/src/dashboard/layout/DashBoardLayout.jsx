@@ -6,7 +6,7 @@ export default function DashBoardLayout() {
         <div className="flex">
             <Sidebar />
             <div className="w-full">
-                <header className="p-3 shadow-2xl bg-slate-900">
+                <header className="p-3  bg-slate-900">
                     <Navbar />
                 </header>
                 <main >

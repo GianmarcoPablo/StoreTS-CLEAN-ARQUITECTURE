@@ -9,11 +9,21 @@ export default function AddProductPage() {
     const [imagen, setImagen] = useState(null);
     const [previewImagen, setPreviewImagen] = useState(null);
 
+    const coupons = {
+        code: "",
+        discount: "",
+        expire_date: "",
+        cuupon_is_active: ""
+    }
+
     const [product, setProduct] = useState({
         name: "",
         price: "",
         description: "",
-        category: ""
+        category: "",
+        is_active: "",
+        outstanding: "",
+        coupons: coupons
     })
 
     const handleChange = (e) => {
@@ -42,97 +52,209 @@ export default function AddProductPage() {
         formData.append("price", product.price);
         formData.append("description", product.description);
         formData.append("category", product.category);
+        formData.append("is_active", JSON.parse(product.is_active));
+        formData.append("outstanding", JSON.parse(product.outstanding));
+        formData.append("code", product.coupons.code);
+        formData.append("discount", product.coupons.discount);
+        formData.append("expire_date", product.coupons.expire_date);
+        formData.append("cuupon_is_active", JSON.parse(product.coupons.cuupon_is_active));
         await addNewProduct(formData);
         setProduct({
             name: "",
             price: "",
             description: "",
-            category: ""
+            category: "",
+            is_active: "",
+            outstanding: "",
+            coupons: coupons
         })
         setPreviewImagen(null);
     };
-
-
     return (
         <>
-            <div
-                className="flex justify-center items-center h-screen"
-            >
+            <div className="mt-10">
+                <form onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-2">
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="name">Nombre</label>
+                            <input
+                                className="border border-gray-300 p-2 rounded-lg"
+                                type="text"
+                                name="name"
+                                id="name"
+                                value={product.name}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="price">Precio</label>
+                            <input
+                                className="border border-gray-300 p-2 rounded-lg"
+                                type="number"
+                                name="price"
+                                id="price"
+                                value={product.price}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="description">Descripción</label>
+                            <textarea
+                                className="border border-gray-300 p-2 rounded-lg"
+                                name="description"
+                                id="description"
+                                cols="30"
+                                rows="10"
+                                value={product.description}
+                                onChange={handleChange}
+                            ></textarea>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="category">Categoría</label>
+                            <select
+                                className="border border-gray-300 p-2 rounded-lg"
+                                name="category"
+                                id="category"
+                                value={product.category}
+                                onChange={handleChange}
+                            >
+                                <option value="">Seleccionar</option>
+                                {
+                                    categories.map((category) => (
+                                        <option key={category.id} value={category.id}>{category.name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="is_active">Activo</label>
+                            <select
+                                className="border border-gray-300 p-2 rounded-lg"
+                                name="is_active"
+                                id="is_active"
+                                value={product.is_active}
+                                onChange={handleChange}
+                            >
+                                <option value="">Seleccionar</option>
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
 
-                <div className="bg-slate-900 shadow-2xl rounded-lg p-10 ">
-                    <h1 className="text-3xl font-black text-white">Add product</h1>
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 mt-5">
-                        <label className='text-lg font-bold text-gray-300' htmlFor="name">Name Product</label>
-                        <input
-                            className="border py-2 px-5 rounded-lg placeholder-black"
-                            type="text"
-                            placeholder="Name"
-                            name="name"
-                            onChange={handleChange}
-                            value={product.name}
-                        />
-                        <label className='text-lg font-bold text-gray-300' htmlFor="price">Price Product</label>
-                        <input
-                            className="border py-2 px-5 rounded-lg placeholder-black"
-                            type="text"
-                            placeholder="Price"
-                            name="price"
-                            onChange={handleChange}
-                            value={product.price}
-                        />
-                        <label className='text-lg font-bold text-gray-300' htmlFor="img">Image Product</label>
-                        <input
-                            className="border py-2 px-5 rounded-lg placeholder-black bg-white"
-                            type="file"
-                            name="imagen"
-                            onChange={fileSelectHandler}
-                            value={product.img}
-                        />
+
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="outstanding">Destacado</label>
+                            <select
+                                className="border border-gray-300 p-2 rounded-lg"
+                                name="outstanding"
+                                id="outstanding"
+                                value={product.outstanding}
+                                onChange={handleChange}
+                            >
+                                <option value="">Seleccionar</option>
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="code">Código de cupón</label>
+                            <input
+                                className="border border-gray-300 p-2 rounded-lg"
+                                type="text"
+                                name="code"
+                                id="code"
+                                value={product.coupons.code}
+                                onChange={(e) => {
+                                    setProduct({
+                                        ...product,
+                                        coupons: { ...product.coupons, code: e.target.value }
+                                    })
+                                }}
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="discount">Descuento</label>
+                            <input
+                                className="border border-gray-300 p-2 rounded-lg"
+                                type="number"
+                                name="discount"
+                                id="discount"
+                                value={product.coupons.discount}
+                                onChange={(e) => {
+                                    setProduct({
+                                        ...product,
+                                        coupons: { ...product.coupons, discount: e.target.value }
+                                    })
+                                }}
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="expire_date">Fecha de expiración</label>
+                            <input
+                                className="border border-gray-300 p-2 rounded-lg"
+                                type="date"
+                                name="expire_date"
+                                id="expire_date"
+                                value={product.coupons.expire_date}
+                                onChange={(e) => {
+                                    setProduct({
+                                        ...product,
+                                        coupons: { ...product.coupons, expire_date: e.target.value }
+                                    })
+                                }}
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="cuupon_is_active">Activo</label>
+                            <select
+                                className="border border-gray-300 p-2 rounded-lg"
+                                name="cuupon_is_active"
+                                id="cuupon_is_active"
+                                value={product.coupons.cuupon_is_active}
+                                onChange={(e) => {
+                                    setProduct({
+                                        ...product,
+                                        coupons: { ...product.coupons, cuupon_is_active: e.target.value }
+                                    })
+                                }}
+
+                            >
+                                <option value="">Seleccionar</option>
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label className="text-gray-700" htmlFor="imagen">Imagen</label>
+                            <input
+                                className="border border-gray-300 p-2 rounded-lg"
+                                type="file"
+                                name="imagen"
+                                id="imagen"
+                                onChange={fileSelectHandler}
+                            />
+                        </div>
                         {
                             previewImagen && (
-                                <img
-                                    className="w-32 h-32 rounded-full object-cover"
-                                    src={previewImagen}
-                                    alt="preview"
-                                />
+                                <div className="flex flex-col">
+                                    <img src={previewImagen} alt="Imagen" className="w-40 h-40 object-cover" />
+                                </div>
                             )
                         }
-                        <label className='text-lg font-bold text-gray-300' htmlFor="description">Description Product</label>
-                        <textarea
-                            className="border py-2 px-5 rounded-lg placeholder-black"
-                            placeholder="Description"
-                            name="description"
-                            onChange={handleChange}
-                            value={product.description}
-                        />
-                        <label className='text-lg font-bold text-gray-300' htmlFor="category">Category Product</label>
-                        <select
-                            className="border py-2 px-5 rounded-lg"
-                            name="category"
-                            onChange={handleChange}
-                            value={product.category}
-                        >
-                            <option value="">Select</option>
-                            {
-                                categories.map(category => (
-                                    <option
-                                        key={category.id}
-                                        value={category.id}
-                                    >
-                                        {category.name}
-                                    </option>
-                                ))
-                            }
-                        </select>
                         <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             type="submit"
-                            className="bg-orange-500 hover:bg-orange-700 transition-colors duration-500 text-white font-bold py-2 px-5 rounded-lg mt-5"
                         >
-                            Add product
+                            Guardar
                         </button>
-                    </form>
-                </div>
-            </div>
+                    </div>
+
+                </form >
+            </div >
             {
                 alert.message && <Alert obj={alert} />
             }
